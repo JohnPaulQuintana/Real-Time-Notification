@@ -21,3 +21,4 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/post-like',[App\Http\Controllers\HomeController::class, 'postLike']);
+Route::get('/post-like/read',[App\Http\Controllers\HomeController::class, 'markusread']);

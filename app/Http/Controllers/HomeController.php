@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
 use App\Notifications\PostLikeNotification;
 
 class HomeController extends Controller
@@ -42,5 +43,23 @@ class HomeController extends Controller
         }
 
         return response()->json(['success']);
+    }
+
+    public function markusread(Request $request){
+        // $user = User::find(auth()->user->id);
+        $user = User::find(auth()->user()->id);
+        
+        // FIRST WAY with delete method
+        foreach ($user->unreadNotifications as $notification){
+            $notification->delete();
+        }
+
+        // SECOND WAY DIRECTED
+        // $user->unreadNotifications->markAsRead();
+
+        // delete all notif
+        // $user->unreadNotifications->delete();
+        // return redirect()->back();
+        return $user;
     }
 }

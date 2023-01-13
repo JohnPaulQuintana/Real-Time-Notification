@@ -22456,20 +22456,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['user', 'user_notifications'],
+  props: ['user', 'user_notifications', 'notifications'],
   setup: function setup(props) {
     var users = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
     var notifications = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
+    var count = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
-      notifications.value = props.user_notifications;
+      notifications.value = props.user_notifications; // count.value = notifications.value.length
+
+      count.value = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)(notifications.value.length);
       console.log(notifications.value);
     });
     Echo["private"]('post_like.' + props.user.id).notification(function (notification) {
       notifications.value.push(notification.notification);
       console.log(notification);
     });
+
+    function read(id) {
+      console.log(id);
+      axios.get('/post-like/read', {
+        id: id
+      }).then(function (response) {
+        console.log(response.data);
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+
     return {
-      notifications: notifications
+      notifications: notifications,
+      read: read,
+      count: count
     };
   }
 });
@@ -22500,6 +22517,7 @@ __webpack_require__.r(__webpack_exports__);
     var posts = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       posts.value = props.posts;
+      console.log(props.user_notifications);
     });
 
     function LikePost(id) {
@@ -22534,26 +22552,78 @@ __webpack_require__.r(__webpack_exports__);
 
 var _hoisted_1 = {
   key: 0,
-  "class": "card-body"
+  "class": "dropdown alert alert-danger alert-dismissible fade show",
+  id: "redAlert",
+  role: "alert"
+};
+var _hoisted_2 = {
+  "class": "badge badge-danger text-danger",
+  style: {
+    "position": "absolute",
+    "margin": "-15px 0 0 -20px",
+    "font-size": "12pt"
+  }
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked your post ");
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fa-solid fa-bell dropdown-toggle",
+  id: "dropdownMenuButton2",
+  "data-bs-toggle": "dropdown",
+  "aria-expanded": "false"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_4 = {
+  "class": "dropdown-menu dropdown-menu-light",
+  "aria-labelledby": "dropdownMenuButton2",
+  style: {
+    "max-height": "20em",
+    "overflow-y": "auto"
+  }
+};
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  "class": "border border-success"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_6 = {
+  "class": "text-success"
+};
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked your post ");
+
+var _hoisted_8 = {
+  "class": "text-success"
+};
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  "class": "border border-success"
+}, null, -1
+/* HOISTED */
+);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return $setup.notifications ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.notifications, function (notify) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      "class": "alert alert-info alert-dismissible fade show",
-      id: "redAlert",
-      role: "alert",
-      key: notify
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(notify.data.user_name), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"card-body\" v-if=\"notifications\">\r\n\t\t<div class=\"alert alert-info alert-dismissible fade show\" id='redAlert' role=\"alert\" v-for=\"notify in notifications\" :key=\"notify\">\r\n\t\t\t<strong>{{ notify.data.user_name }}</strong> Liked your post <b>{{ notify.data.post_title }}</b>\r\n\t\t\t<button type=\"button\" class=\"form-control btn btn-primary\" @click=\"read(notify.data.post_id)\">mark as read</button>\r\n\t\t</div>\r\n\t</div> "), $setup.notifications ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <a class=\"btn btn-secondary dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton2\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">\r\n\t\t\t{{ notifications.length }}<i class=\"fa-solid fa-bell\"></i>\r\n\t\t</a> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.notifications.length), 1
+  /* TEXT */
+  )], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.notifications.length != 0]]), _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{ count }} "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.notifications, function (notify) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: notify,
+      "class": "p-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(notify.data.user_name), 1
     /* TEXT */
-    ), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(notify.data.post_title), 1
+    ), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(notify.data.post_title), 1
     /* TEXT */
-    )]);
+    ), _hoisted_9]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
+  ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2112
+  /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+  );
 }
 
 /***/ }),
@@ -22592,7 +22662,7 @@ var _hoisted_4 = {
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Notifications: ");
 
 var _hoisted_6 = {
-  "class": "col-sm-6 card"
+  "class": "col-sm-6 card tab"
 };
 var _hoisted_7 = {
   "class": "table"
@@ -22626,7 +22696,7 @@ var _hoisted_10 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_notify = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("notify");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_notify, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{ posts }} "), _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_notify, {
     user: $props.user,
     user_notifications: $props.user_notifications
   }, null, 8
@@ -27759,7 +27829,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.col-sm-6[data-v-4ac4d2f8]{\r\n\t\toverflow-y:auto;\r\n\t\theight:40em;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.tab[data-v-4ac4d2f8]{\r\n\t\toverflow-y:auto;\r\n\t\theight:40em;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

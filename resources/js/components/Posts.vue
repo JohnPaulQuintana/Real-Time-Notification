@@ -3,11 +3,12 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="card p-3">
+					<!-- {{ posts }} -->
 					Notifications:
 					<notify :user="user" :user_notifications="user_notifications" />
 				</div>
 			</div>
-			<div class="col-sm-6 card">
+			<div class="col-sm-6 card tab">
 				<table class="table">
 			  <thead class="thead-dark">
 			    <tr>
@@ -49,6 +50,7 @@
 
 	    	onMounted(() =>{
 	    		posts.value = props.posts
+				console.log(props.user_notifications)
 	    	})
 
 	        function LikePost(id){
@@ -66,7 +68,7 @@
 </script>
 
 <style scoped>
-	.col-sm-6{
+	.tab{
 		overflow-y:auto;
 		height:40em;
 	}
